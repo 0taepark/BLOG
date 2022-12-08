@@ -42,13 +42,8 @@ const Bio = () => {
         quality={95}
         alt="Profile picture"
       />
-      {author?.name && (
-        <p>
-          <strong>{author.name}</strong> {author?.summary || null}
-          {` `}
-        
-        </p>
-      )}
+      
+      <h3>안녕하세요. <br/><strong>프론트엔드 개발자 박영태</strong>입니다. </h3>
     </div>
   )
 }
