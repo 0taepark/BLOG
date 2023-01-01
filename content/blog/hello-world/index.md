@@ -1,231 +1,73 @@
 ---
-title: Hello World
+title: Javascript 로그인 성공?
 date: "2015-05-01T22:12:03.284Z"
-description: "Hello World"
+description: "프로그래머스 문제풀이"
 ---
 
-This is my first post on my new fake blog! How exciting!
+#### 문제
+> 
+머쓱이는 프로그래머스에 로그인하려고 합니다. 머쓱이가 입력한 아이디와 패스워드가 담긴 배열 id_pw와 회원들의 정보가 담긴 2차원 배열 db가 주어질 때, 다음과 같이 로그인 성공, 실패에 따른 메시지를 return하도록 solution 함수를 완성해주세요.
+<br>아이디와 비밀번호가 모두 일치하는 회원정보가 있으면 "login"을 return합니다.
+로그인이 실패했을 때 아이디가 일치하는 회원이 없다면 “fail”를, 아이디는 일치하지만 비밀번호가 일치하는 회원이 없다면 “wrong pw”를 return 합니다.
 
-I'm sure I'll write a lot more interesting things in the future.
-
-Oh, and here's a great quote from this Wikipedia on
-[salted duck eggs](https://en.wikipedia.org/wiki/Salted_duck_egg).
-
-> A salted duck egg is a Chinese preserved food product made by soaking duck
-> eggs in brine, or packing each egg in damp, salted charcoal. In Asian
-> supermarkets, these eggs are sometimes sold covered in a thick layer of salted
-> charcoal paste. The eggs may also be sold with the salted paste removed,
-> wrapped in plastic, and vacuum packed. From the salt curing process, the
-> salted duck eggs have a briny aroma, a gelatin-like egg white and a
-> firm-textured, round yolk that is bright orange-red in color.
-
-![Chinese Salty Egg](./salty_egg.jpg)
-
-You can also write code blocks here!
-
+https://school.programmers.co.kr/learn/courses/30/lessons/120883
+#### 처음 생각했던 방식
+ 1.userId = id_pw[0] userPw = id_pw[1]로 저장해 for문을 이용하여 비교
 ```js
-const saltyDuckEgg = "chinese preserved food product"
-```
+let arr = [];
 
-| Number | Title                                    | Year |
-| :----- | :--------------------------------------- | ---: |
-| 1      | Harry Potter and the Philosopher’s Stone | 2001 |
-| 2      | Harry Potter and the Chamber of Secrets  | 2002 |
-| 3      | Harry Potter and the Prisoner of Azkaban | 2004 |
+const userId = id_pw[0]
+const userPw = id_pw[1]
 
-[View raw (TEST.md)](https://raw.github.com/adamschwartz/github-markdown-kitchen-sink/master/README.md)
+  for (let i = 0; i < db.length; i++) {
+    if (db[i][0] == userId && db[i][1] !== userPw) {
+      arr.push("wrong pw");
+    } else if (db[i][0] == userId && db[i][1] == userPw) {
+      arr.push("login");
+    }
+  }
 
-This is a paragraph.
+````
 
-    This is a paragraph.
 
-# Header 1
+  2.db.flat()을 써서 db안 배열을 벗겨낸 다음에 userId와 userPw로 저장해 id_pw의 값들과 비교하였는데 db안에 id_pw의 요소가 있기만 해도 "login"이 되는 현상
+ ```js
+id_pw =["meosseugi","1234"]
 
-## Header 2
+db = [["rardss", "123"], ["yyoom", "1234"], ["meosseugi", "1234"]]
 
-    Header 1
-    ========
+db.flat() = ["rardss", "123", "yyoom", "1234", "meosseugi", "1234"]
+````
+  
 
-    Header 2
-    --------
 
-# Header 1
-
-## Header 2
-
-### Header 3
-
-#### Header 4
-
-##### Header 5
-
-###### Header 6
-
-    # Header 1
-    ## Header 2
-    ### Header 3
-    #### Header 4
-    ##### Header 5
-    ###### Header 6
-
-# Header 1
-
-## Header 2
-
-### Header 3
-
-#### Header 4
-
-##### Header 5
-
-###### Header 6
-
-    # Header 1 #
-    ## Header 2 ##
-    ### Header 3 ###
-    #### Header 4 ####
-    ##### Header 5 #####
-    ###### Header 6 ######
-
-> Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.
-
-    > Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.
-
-> ## This is a header.
+ #### 풀이 순서
 >
-> 1. This is the first list item.
-> 2. This is the second list item.
->
-> Here's some example code:
->
->     Markdown.generate();
+1.db에 회원들의 아이디인 id_pw[0]가 포함된 배열을 추출해서 userData에 저장
+->array.find를 이용
+```js
+const userData = db.find(([el])=> el == id_pw[0])
+````
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find <br>
+2.userData의 비밀번호 userData[1]가 회원들의 비밀번호 id_pw[1]랑 같으면 "login" 그렇지 않으면 "wrong pw"를 리턴
+```js
+if(userData){
+   return userData[1] == id_pw[1] ? "login" : "wrong pw"
+}
+````
+3.아이디가 일치하는 회원이 없다면 "fail" 리턴
 
-    > ## This is a header.
-    > 1. This is the first list item.
-    > 2. This is the second list item.
-    >
-    > Here's some example code:
-    >
-    >     Markdown.generate();
 
-- Red
-- Green
-- Blue
 
-* Red
-* Green
-* Blue
 
-- Red
-- Green
-- Blue
-
-```markdown
-- Red
-- Green
-- Blue
-
-* Red
-* Green
-* Blue
-
-- Red
-- Green
-- Blue
+#### 나의 풀이 코드
+> 
+```js
+function solution(id_pw, db) {
+const userData = db.find(([el])=> el == id_pw[0])
+if(userData){
+   return userData[1] == id_pw[1] ? "login" : "wrong pw"
+}
+else return "fail"
+}
 ```
-
-- `code goes` here in this line
-- **bold** goes here
-
-```markdown
-- `code goes` here in this line
-- **bold** goes here
-```
-
-1. Buy flour and salt
-1. Mix together with water
-1. Bake
-
-```markdown
-1. Buy flour and salt
-1. Mix together with water
-1. Bake
-```
-
-1. `code goes` here in this line
-1. **bold** goes here
-
-```markdown
-1. `code goes` here in this line
-1. **bold** goes here
-```
-
-Paragraph:
-
-    Code
-
-<!-- -->
-
-    Paragraph:
-
-        Code
-
----
-
----
-
----
-
----
-
----
-
-    * * *
-
-    ***
-
-    *****
-
-    - - -
-
-    ---------------------------------------
-
-This is [an example](http://example.com "Example") link.
-
-[This link](http://example.com) has no title attr.
-
-This is [an example][id] reference-style link.
-
-[id]: http://example.com "Optional Title"
-
-    This is [an example](http://example.com "Example") link.
-
-    [This link](http://example.com) has no title attr.
-
-    This is [an example] [id] reference-style link.
-
-    [id]: http://example.com "Optional Title"
-
-_single asterisks_
-
-_single underscores_
-
-**double asterisks**
-
-**double underscores**
-
-    *single asterisks*
-
-    _single underscores_
-
-    **double asterisks**
-
-    __double underscores__
-
-This paragraph has some `code` in it.
-
-    This paragraph has some `code` in it.
-
-![Alt Text](https://via.placeholder.com/200x50 "Image Title")
-
-    ![Alt Text](https://via.placeholder.com/200x50 "Image Title")
