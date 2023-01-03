@@ -45,8 +45,10 @@ const Bio = () => {
       />
       
       <h3>안녕하세요. <br/><strong>프론트엔드 개발자 박영태</strong>입니다.</h3>
+
       <Button><a href="https://github.com/0taepark">Github</a></Button>
       <Button><a href="mailto:ytpark1665@gmail.com">Gmail</a></Button>
+   
     </div>
   )
 }
