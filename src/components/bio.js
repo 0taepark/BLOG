@@ -38,8 +38,8 @@ const Bio = () => {
         layout="fixed"
         formats={["auto", "webp", "avif"]}
         src="../images/르밀리옹.png"
-        width={200}
-        height={200}
+        width={250}
+        height={180}
         quality={95}
         alt="Profile picture"
       />
